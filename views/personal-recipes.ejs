@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ./templates/header.ejs %>
+</head>
+<body>
+<div class="container">
+    <% include ./templates/navbar.ejs %>
+
+    <div class="profile-wall row">
+        <!--        <section class="wall-photo"><img src="../public/images/vegetables-cover-photo.jpg" class="cover-photo"></section>-->
+        <div class="cover-photo" style="background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.7)),url('../<%=user.cover_photo%>')"></div>
+        <div class="profile-summary row">
+            <img src="../<%= user.avatar %>" alt="Avatar" class="profile-avatar">
+            <span class="summary-infor">
+                <div role="<%=user_role%>" id="<%=user.id%>" class="profile-username"><%= user.firstname + " " + user.lastname%></div>
+                <div class="info-icon">
+                    <span><img src="../../public/images/user-friends-icon1.jpg" class="user-friend-icon"> 3</span>
+                    <span><img src="../../public/images/spoon-icon.jpg" class="spoon-icon"> 0</span>
+                </div>
+                <% if(user_role == 1 || user_role == 3){ %>
+                    <a href="#">
+                    <div class="follow-btn">
+                        +<img src="../../public/images/user-friends-icon1.jpg" class="follow-icon"> Follow
+                    </div>
+                </a>
+                <% } else if(user_role == 2){ %>
+                    <a href="/logout">
+                    <div class="follow-btn">Đăng xuất</div>
+                </a>
+                <% } %>
+            </span>
+        </div>
+    </div>
+
+    <div class="profile-content">
+        <div class="profile-tabs">
+            <ul class="nav nav-tabs nav-pills with-arrow lined flex-sm-row text-center"  role="tablist">
+                <% if(user_role == 2 || user_role == 3){ %>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="/my/about-me">Về Tôi</a></li>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="/my/favourites">Yêu Thích</a></li>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="/my/friends">Bạn Bè</a></li>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="/my/collections">Thực Đơn</a></li>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0 active" href="/my/recipes" data-toggle="tab">Công Thức</a></li>
+                <% } else if(user_role == 0 || user_role == 1){ %>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="/cook/about/<%=user.id%>">Về Tôi</a></li>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="/cook/favourites/<%=user.id%>">Yêu Thích</a></li>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="/cook/friends/<%=user.id%>">Bạn Bè</a></li>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="/cook/collections/<%=user.id%>">Thực Đơn</a></li>
+                <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0 active" href="/cook/recipes/<%=user.id%>" data-toggle="tab">Công Thức</a></li>
+                <% } %>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-panel-contain active">
+                    <section class="personal-recipe-grid"></section>
+                    <% if(user_role == 2 || user_role == 3){ %>
+                    <a href="/my/add-recipe" class="btn btn-block"><span class="fa fa-plus"></span> Thêm công thức mới</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% include templates/page_footer.ejs %>
+</div>
+
+<% include templates/footer.ejs %>
+<script src="../../public/javascripts/personal-recipe.js"></script>
+</body>
+</html>

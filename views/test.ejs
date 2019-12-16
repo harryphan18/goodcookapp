@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <title>Document</title>
+    <% include ./templates/header.ejs %>
+</head>
+<body>
+    <ul class="ingredients">
+
+    </ul>
+    <ol class="directions">
+
+    </ol>
+
+
+    <% include templates/footer.ejs %>
+
+// hàm xử lý chuỗi
+<script>
+    const dire = `<%= directions %>`;
+    const ingr = `<%= ingredients %>`;
+    handleString(dire, '.directions');
+    handleString(ingr, '.ingredients');
+    function handleString(str, nameClass){
+        const regex = /[^\n"']+|"([^"]*)"|'([^']*)'/g;      // quy tắc bắt chuỗi trong Regular Expression
+        let m;
+        while ((m = regex.exec(str)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+            // The result can be accessed through the `m`-variable.
+            m.forEach((match, groupIndex) => {
+                match = match + ''; // phải có dòng này để chuyển match thành một string
+
+                // vì biến match có lẫn các chuỗi 'undefined' không rõ ràng nên không hiển thị nó lên
+                if(match !== 'undefined') {
+                    $(nameClass).append('<li>' + match + '</li>');
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

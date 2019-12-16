@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ./templates/header.ejs %>
+</head>
+<body>
+<div class="container">
+    <% include ./templates/navbar.ejs %>
+
+    <div class="profile-edit-tabs">
+        <ul class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center"  role="tablist">
+            <li class="nav-item flex-sm-fill"><a class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active" href="#profile-info-detail" role="tab" data-toggle="tab">Thông tin cá nhân</a></li>
+            <li class="nav-item flex-sm-fill"><a class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0" href="#change-password" role="tab" data-toggle="tab">Thông tin truy cập / Đổi mật khẩu</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="profile-info-detail">
+                <div class="form-row">
+                    <div class="form-left"></div>
+                    <div class="form-right avatar">
+                        <img src="<%= typeof file != 'undefined' ? file : '../public/images/add-image-empty.png' %>" class="responsive-avatar">
+                        <form action="/profile/edit" method="POST" enctype="multipart/form-data">
+                            <span>
+                                <input name="myImage" type="file" class="form-control-file select-avatar">
+                                <button type="submit" class="btn btn-success display-image-btn">Submit</button>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-left"></div>
+                    <div class="form-right"><div class="block-title">Thông tin giới thiệu</div></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Giới thiệu</div> </div>
+                    <div class="form-right"><textarea class="form-control rounded" id="introduction"><%= user.introduction %></textarea></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"></div>
+                    <div class="form-right"><div class="block-title">Thông tin tài khoản</div></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Email</div> </div>
+                    <div class="form-right"><div class="label"><%= user.email %></div></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Họ</div> </div>
+                    <div class="form-right"><input type="text" id="lastname" class="form-control rounded" value="<%= user.lastname %>"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Tên</div> </div>
+                    <div class="form-right"><input type="text" id="firstname" class="form-control rounded" value="<%= user.firstname %>"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"></div>
+                    <div class="form-right"><div class="block-title">Thông tin liên hệ</div></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Số điện thoại</div> </div>
+                    <div class="form-right"><input type="text" id="numbers" class="form-control rounded" value="<%= user.numbers %>"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Facebook</div> </div>
+                    <div class="form-right"><input type="text" id="facebook" class="form-control rounded" value="<%= user.facebook %>"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Instagram</div> </div>
+                    <div class="form-right"><input type="text" id="instagram" class="form-control rounded" value="<%= user.instagram %>"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"></div>
+                    <div class="form-right">
+                        <input type="submit" class="btn btn-info savebtn" value="Lưu">
+                        <a href="/my/about-me" class="btn btn-danger discardbtn">Hủy</a>
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="change-password">
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Email</div> </div>
+                    <div class="form-right"><input type="text" id="email" class="form-control rounded" value="<%= user.email %>"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Mật khẩu cũ</div> </div>
+                    <div class="form-right"><input type="password" id="password" class="form-control rounded" value="<%= user.firstname %>"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Mật khẩu mới</div> </div>
+                    <div class="form-right"><input type="password" class="form-control rounded" value="<%= user.firstname %>"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"><div class="control-label">Nhập lại mật khẩu mới</div> </div>
+                    <div class="form-right"><input type="password" class="form-control rounded" value="<%= user.firstname %>"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-left"></div>
+                    <div class="form-right">
+                        <input type="submit" class="btn btn-info savebtn" value="Lưu">
+                        <input type="submit" class="btn btn-danger discardbtn" value="Hủy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <% include templates/page_footer.ejs %>
+    </div>
+
+    <% include templates/footer.ejs %>
+    <script src="../public/javascripts/profile-edit.js"></script>
+</body>
+</html>

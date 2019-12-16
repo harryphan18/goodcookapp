@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <% include ./templates/header.ejs %>
+    <link rel="stylesheet" href="../public/stylesheets/recipe.css">
+</head>
+<body>
+
+<div class="container">
+    <% include ./templates/navbar.ejs %>
+
+    <div class="recipe-container">
+        <div class="row">
+            <div class="recipe-left-bar">
+                <section class="recipe-summary row">
+                    <section class="summary-infor">
+                        <h4 class="recipe-name" id="<%=recipe.recipe_id%>"><%= recipe.name %></h4>
+                        <div class="recipe-rating-photo"><img src="<%= recipe.rating_star_photo %>" class="recipe-rating-star"></div>
+                        <div class="summary-status-box">
+                            <a href="#recipe-reviews"><%= recipe.rating_score %>/5 sao</a><span> | </span>
+                            <a href="#recipe-reviews"><%= recipe.num_of_reviews %> đánh giá</a><span> | </span>
+                            <a href="#">1 ảnh</a>
+                        </div>
+                        <div class="recipe-author-photo">
+                            <img class="author-avatar" src="<%=recipe.avatar%>">
+                        </div>
+                        <div class="author-name">
+                            Recipe by: <a href="/cook/about/<%=recipe.author_id%>"><%= recipe.author_name %></a>
+                        </div>
+                        <div class="recipe-desciption">"<%= recipe.description %>!"</div>
+                    </section>
+                    <section class="recipe-photos">
+                        <img src="<%= recipe.photo %>" class="main-photo">
+                    </section>
+                </section>
+                <div class="recipe-controller">
+                    <ul class="nav nav-tabs nav-pills lined flex-sm-row text-center"  role="tablist">
+                        <% if(user_role == 0){ %>
+                        <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0 active" href="/login" data-toggle="tab"><i class="fa fa-heart"></i> Save</a></li>
+                        <% } else if (user_role == 1 || user_role == 2 || user_role == 3) { %>
+                        <li class="nav-item flex-sm-fill"><a class="nav-link btn btn-danger liked-btn mr-sm-3 rounded-0 active" data-toggle="tab"><i class="fa fa-heart"></i> Save</a></li>
+                        <% } %>
+                        <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="#myModal"><i class="fa fa-spoon"></i> I Made It</a></li>
+                        <li class="nav-item flex-sm-fill"><a class="nav-link mr-sm-3 rounded-0" href="#recipe-reviews"><i class="fa fa-comment"></i> Rate It</a></li>
+                    </ul>
+                </div>
+                <section class="recipe-ingredients">
+                    <h2 class="heading-section">Ingredients</h2>
+                    <div class="ingredients--section multi-column"></div>
+                </section>
+                <section class="recipe-directions">
+                    <h2 class="heading-section">Directions</h2>
+                    <ol class="directions--section"></ol>
+                </section>
+                <section id="recipe-reviews">
+                    <h2 class="heading-section">Reviews</h2>
+                    <div class="reviews--section">
+                        <% if(user_role == 0){ %>
+                            <div>Bạn cần phải đăng nhập để có thể bình luận. <a href="/login">Đăng nhập</a> ngay</div>
+                        <% } else { %>
+                            <div name="comment-btn-field">
+                                    <button type="button" class="btn btn-info btn-lg add-comment-btn" data-toggle="modal" data-target="#myModal">Thêm bình luận</button>
+                                    <div class="modal fade" id="myModal" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Đánh Giá, Bình Luận & Thêm Hình Ảnh</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="rate">
+                                                        <input type="radio" id="star5" name="rate" value="5" />
+                                                        <label for="star5" title="I love it">5 stars</label>
+                                                        <input type="radio" id="star4" name="rate" value="4" />
+                                                        <label for="star4" title="I like it">4 stars</label>
+                                                        <input type="radio" id="star3" name="rate" value="3" />
+                                                        <label for="star3" title="It's ok">3 stars</label>
+                                                        <input type="radio" id="star2" name="rate" value="2" />
+                                                        <label for="star2" title="Don't like it">2 stars</label>
+                                                        <input type="radio" id="star1" name="rate" value="1" />
+                                                        <label for="star1" title="Can't eat it">1 star</label>
+                                                    </div>
+                                                    <textarea class="form-control rounded comment-area" rows="3" placeholder="Bạn có thay đổi công thức không, và bạn sẽ làm lại nó lần nữa chứ?"></textarea>
+                                                    <button class="btn-discard-change"><i class="fa fa-camera"></i> Thêm ảnh</button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <input type="submit" class="btn btn-success submit-comment-btn" value="Bình luận">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        <% } %>
+                        <div class="all-reviews">
+                        <!--<div class="comment-card row">
+                            <div class="left">
+                                <img src="../public/images/empty-avatar.png" class="author-comment-avatar">
+                            </div>
+                            <div class="right">
+                                <div class="row author-comment-name"><strong>Harry Đặng</strong></div>
+                                <div class="row "><img class="star-rating" src="../public/images/rating-star-4.jpg"> </div>
+                                <div class="row comment-content">Món này hấp dẫn đó Món này hấp dẫn đó Món này hấp dẫn đó Món này hấp dẫn đó Món này hấp dẫn đó Món này hấp dẫn đó </div>
+                            </div>
+                        </div><hr>-->
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="recipe-right-bar">
+                <div class="recipe-recommends">Liên quan</div>
+                <div class="recipe-ads">Quảng cáo</div>
+            </div>
+        </div>
+    </div>
+
+    <% include templates/page_footer.ejs %>
+</div>
+<% include templates/footer.ejs %>
+<script src="../public/javascripts/review.js"></script>
+<script>
+    const ingr = `<%= recipe.ingredients %>`;
+    const dire = `<%= recipe.directions %>`;
+    handleString(ingr, '.ingredients--section');
+    handleString(dire, '.directions--section');
+    function handleString(str, nameClass){
+        const regex = /[^\n"']+|"([^"]*)"|'([^']*)'/g;      // quy tắc bắt chuỗi trong Regular Expression
+        let m;
+        while ((m = regex.exec(str)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+            // The result can be accessed through the `m`-variable.
+            m.forEach((match, groupIndex) => {
+                match = match + ''; // phải có dòng này để chuyển match thành một string
+
+                // vì biến match có lẫn các chuỗi 'undefined' không rõ ràng nên không hiển thị nó lên
+                if(match !== 'undefined') {
+                    if(nameClass === '.ingredients--section')
+                        $(nameClass).append('<p> ' + match + '</p>');
+                    else
+                        $(nameClass).append('<p> ' + match + '</p>');
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

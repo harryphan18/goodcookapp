@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ./templates/header.ejs %>
+    <script src="https://kit.fontawesome.com/a0cc071f99.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <% include ./templates/navbar.ejs %>
+
+    <div class="profile-wall row">
+        <div class="cover-photo" style="background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.7)),url('../<%=user.cover_photo%>')"></div>
+        <div class="profile-summary row">
+            <img src="../<%= user.avatar %>" alt="Avatar" class="profile-avatar">
+            <span class="summary-infor">
+                <div class="profile-username"><%= user.firstname + " " + user.lastname%></div>
+                <div class="info-icon">
+                    <span><img src="../../public/images/user-friends-icon1.jpg" class="user-friend-icon"> 3</span>
+                    <span><img src="../../public/images/spoon-icon.jpg" class="spoon-icon"> 0</span>
+                </div>
+            </span>
+        </div>
+    </div>
+
+    <div class="add-recipe-container">
+        <div class="create-recipe--left">
+            <div class="add-photo">
+                <img src="<%= typeof file != 'undefined' ? file : '../public/images/add-image-empty.png' %>" class="responsive-image">
+                <form action="/my/recipes" method="POST" enctype="multipart/form-data">
+                    <span>
+                        <input name="myImage" type="file" class="form-control-file select-photo">
+                        <button type="submit" class="btn btn-success display-image-btn">Submit</button>
+                    </span>
+                </form>
+            </div>
+            <div class="create-recipe-info">
+                <div class="row">
+                    <div class="create-recipe-item">
+                        <div class="create-recipe-heading">Prep time</div>
+                        <input type="text" id="prep-time">
+                    </div>
+                    <div class="create-recipe-item">
+                        <div class="create-recipe-heading">Cook time</div>
+                        <input type="text" id="cook-time">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="create-recipe-item">
+                        <div class="create-recipe-heading">Number of servings</div>
+                        <input type="text" id="num-of-servings">
+                    </div>
+                    <div class="create-recipe-item">
+                        <div class="create-recipe-heading">Nutrition facts (optional)</div>
+                        <input type="text" id="nutrition-facts">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="create-recipe-heading">Notes (optional)</div>
+                    <textarea id="recipe-notes" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="recipe-category-checkbox">
+                <ul class="ks-cboxtags">
+                    <div class="serve-for"><div class="create-recipe-heading">Món phục vụ cho</div>
+                        <li><input type="checkbox" id="checkbox1" value="Khai vị"><label for="checkbox1">Khai vị</label></li>
+                        <li><input type="checkbox" id="checkbox2" value="Món chính"><label for="checkbox2">Món chính</label></li>
+                        <li><input type="checkbox" id="checkbox3" value="Tráng miệng"><label for="checkbox3">Tráng miệng</label></li>
+                    </div>
+                    <div class="regional_cuisine"><div class="create-recipe-heading">Ẩm thực khu vực</div>
+                        <li><input type="checkbox" id="checkbox4" value="Việt Nam"><label for="checkbox4">Việt Nam</label></li>
+                        <li><input type="checkbox" id="checkbox5" value="Hàn Quốc"><label for="checkbox5">Hàn Quốc</label></li>
+                    </div>
+                    <div class="dish_type"><div class="create-recipe-heading">Loại món ăn</div>
+                        <li><input type="checkbox" id="checkbox6" value="Canh"><label for="checkbox6">Canh</label></li>
+                        <li><input type="checkbox" id="checkbox7" value="Bánh ngọt"><label for="checkbox7">Bánh ngọt</label></li>
+                        <li><input type="checkbox" id="checkbox8" value="Cuốn"><label for="checkbox8">Cuốn</label></li>
+                        <li><input type="checkbox" id="checkbox9" value="Lẩu"><label for="checkbox9">Lẩu</label></li>
+                    </div>
+                    <div class="cooking_style"><div class="create-recipe-heading">Cách nấu</div>
+                        <li><input type="checkbox" id="checkbox10" value="Chiên"><label for="checkbox10">Chiên</label></li>
+                        <li><input type="checkbox" id="checkbox11" value="Luộc"><label for="checkbox11">Luộc</label></li>
+                        <li><input type="checkbox" id="checkbox12" value="Nấu"><label for="checkbox12">Nấu</label></li>
+                        <li><input type="checkbox" id="checkbox13" value="Xào"><label for="checkbox13">Xào</label></li>
+                    </div>
+                    <div class="occasion"><div class="create-recipe-heading">Mùa & dịp</div>
+                        <li><input type="checkbox" id="checkbox14" value="Tết"><label for="checkbox14">Tết</label></li>
+                        <li><input type="checkbox" id="checkbox15" value="Noel"><label for="checkbox15">Noel</label></li>
+                        <li><input type="checkbox" id="checkbox16" value="Mùa hè"><label for="checkbox16">Mùa hè</label></li>
+                        <li><input type="checkbox" id="checkbox17" value="Sinh nhật"><label for="checkbox17">Sinh nhật</label></li>
+                    </div>
+                    <div class="good_for"><div class="create-recipe-heading">Tốt cho</div>
+                        <li><input type="checkbox" id="checkbox18" value="Trẻ em"><label for="checkbox18">Trẻ em</label></li>
+                        <li><input type="checkbox" id="checkbox19" value="Bà bầu"><label for="checkbox19">Bà bầu</label></li>
+                        <li><input type="checkbox" id="checkbox20" value="Ăn kiêng"><label for="checkbox20">Ăn kiêng</label></li>
+                    </div>
+                    <div class="main_ingredient"><div class="create-recipe-heading">Nguyên liệu chính</div>
+                        <li><input type="checkbox" id="checkbox21" value="Thịt heo"><label for="checkbox21">Thịt heo</label></li>
+                        <li><input type="checkbox" id="checkbox22" value="Cá"><label for="checkbox22">Cá</label></li>
+                        <li><input type="checkbox" id="checkbox23" value="Rau"><label for="checkbox23">Rau</label></li>
+                        <li><input type="checkbox" id="checkbox24" value="Khoai"><label for="checkbox24">Khoai</label></li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+
+        <div class="create-recipe--right">
+            <div class="create-recipe-item">
+                <div class="create-recipe-heading">Recipe title</div>
+                <input id="recipe-title">
+            </div>
+            <div class="create-recipe-item">
+                <div class="create-recipe-heading">Recipe desciption</div>
+                <textarea id="recipe-desciption" rows="3"></textarea>
+            </div>
+            <div class="create-recipe-item">
+                <div class="create-recipe-heading">Recipe ingredients</div>
+                <textarea id="recipe-ingredients" placeholder="Mỗi nguyên liệu nhập trên 1 hàng" rows="8"></textarea>
+            </div>
+            <div class="create-recipe-item">
+                <div class="create-recipe-heading">Recipe directions</div>
+                <textarea id="recipe-directions" placeholder="Mỗi bước nhập trên 1 hàng" rows="8"></textarea>
+            </div>
+            <div class="create-recipe-range">
+                <label class="my-radio">Riêng tư
+                    <div><i>Chỉ mình bạn có thể xem</i></div>
+                    <input type="radio" name="radio">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="my-radio">Công khai
+                    <div><i>Bất cứ ai nhìn thấy bạn đều có thể xem</i></div>
+                    <input type="radio" name="radio">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="my-radio">Công khai và gửi đi như là một đóng góp cho GoodCook.
+                    <div><i>Bằng cách chọn điều này, bạn đã đồng ý với <a href="#" style="color: #b92132">điều khoản</a> của chúng tôi</i></div>
+                    <input type="radio" checked="checked" name="radio">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="create-recipe-item">
+                <span class="create-recipe-controller">
+                    <a href="/my/recipes" class="btn btn-danger recipe-save-btn">Save</a>
+                    <a href="/my/recipes" class="btn btn-secondary recipe-cancel-btn">Cancel</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <% include templates/page_footer.ejs %>
+</div>
+
+<% include templates/footer.ejs %>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>-->
+<script src="../public/javascripts/add-recipe.js"></script>
+</body>
+</html>
